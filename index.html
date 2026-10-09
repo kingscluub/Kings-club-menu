@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Kings Club Menu</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+*{box-sizing:border-box}
+body{margin:0;background:#080808;color:#fff;font-family:Cairo,Arial,sans-serif}
+header{position:sticky;top:0;z-index:100;background:rgba(8,8,8,.96);backdrop-filter:blur(15px);border-bottom:1px solid #292929}
+.logo{display:flex;justify-content:center;align-items:center;gap:10px;padding:15px 10px 12px;direction:ltr}
+.logo-k{font-family:Georgia,serif;font-size:78px;line-height:.7;font-weight:900;font-style:italic;color:#f04436;text-shadow:0 2px 0 #74150f}
+.logo-text{text-align:left}
+.logo-name{font-family:Arial,sans-serif;font-size:38px;line-height:.8;font-weight:900;letter-spacing:-2px}
+.logo-name small{color:#f04436;font-size:8px;vertical-align:top}
+.logo-club{font-family:Arial,sans-serif;font-size:38px;line-height:.8;font-weight:900;letter-spacing:-2px;margin-top:7px}
+.logo-sub{color:#e64a3c;font-family:Arial,sans-serif;font-size:8px;font-weight:bold;letter-spacing:3px;margin-top:10px;direction:ltr}
+.categories{display:flex;gap:8px;overflow-x:auto;padding:9px 10px 13px;scrollbar-width:none;max-width:1200px;margin:auto}
+.categories::-webkit-scrollbar{display:none}
+.cat{flex:0 0 auto;border:1px solid #333;background:#151515;color:#ddd;border-radius:30px;padding:8px 15px;font-family:Cairo,sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:.2s}
+.cat.active{background:#d8ad55;border-color:#d8ad55;color:#111}
+main{max-width:1050px;margin:auto;padding:30px 14px 60px}
+.hero{text-align:center;margin-bottom:30px}
+.hero h1{margin:0;font-family:Georgia,serif;font-size:38px;color:#f1d18b}
+.hero p{margin:7px 0 0;color:#999;font-family:Arial,sans-serif;font-size:12px;letter-spacing:3px;direction:ltr}
+.section{display:none;animation:fade .25s ease}
+.section.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.section-title{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.section-title h2{margin:0;white-space:nowrap;font-size:22px;color:#f4e1b2}
+.line{flex:1;height:1px;background:linear-gradient(90deg,transparent,#d8ad55,transparent)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.item{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:68px;padding:14px 16px;background:linear-gradient(145deg,#191919,#101010);border:1px solid #292929;border-radius:15px;transition:.2s}
+.item:hover{transform:translateY(-2px);border-color:#6d5527}
+.name{font-size:14px;font-weight:700;line-height:1.7;flex:1}
+.price{color:#f1d18b;font-size:18px;font-weight:800;white-space:nowrap;direction:ltr}
+footer{border-top:1px solid #222;text-align:center;color:#777;padding:25px;font-size:12px}
+footer b{color:#d8ad55}
+
+/* أزرار الأدمن */
+.admin-bar{display:flex;justify-content:center;gap:8px;padding:8px 10px;background:#111;border-bottom:1px solid #222;flex-wrap:wrap}
+.admin-bar button{background:#d8ad55;color:#111;border:none;border-radius:20px;padding:7px 14px;font-family:Cairo,sans-serif;font-size:12px;font-weight:700;cursor:pointer}
+.admin-bar button.ghost{background:#222;color:#ddd;border:1px solid #444}
+.edit-btn{background:#d8ad55;color:#111;border:none;border-radius:8px;padding:6px 10px;font-size:14px;cursor:pointer;margin-right:6px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:999;padding:20px}
+.modal.show{display:flex}
+.modal-box{background:#181818;border:1px solid #333;border-radius:15px;padding:20px;width:100%;max-width:340px;text-align:center}
+.modal-box h3{margin:0 0 15px;color:#f1d18b}
+.modal-box input{width:100%;padding:10px;margin-bottom:10px;background:#0d0d0d;border:1px solid #333;border-radius:8px;color:#fff;font-family:Cairo,sans-serif}
+.modal-box button{background:#d8ad55;color:#111;border:none;border-radius:8px;padding:10px 20px;font-family:Cairo,sans-serif;font-weight:700;cursor:pointer;width:100%}
+.toast{position:fixed;bottom:20px;right:20px;left:20px;background:#d8ad55;color:#111;padding:12px;border-radius:10px;text-align:center;font-weight:700;display:none;z-index:1000}
+.toast.show{display:block}
+
+@media(max-width:650px){
+.logo-k{font-size:65px}
+.logo-name,.logo-club{font-size:32px}
+.logo-sub{font-size:7px;letter-spacing:2px}
+.grid{grid-template-columns:1fr}
+.hero h1{font-size:32px}
+.name{font-size:13px}
+.price{font-size:16px}
+.section-title h2{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">
+<div class="logo-k">K</div>
+<div class="logo-text">
+<div class="logo-name">KINGS <small>™</small></div>
+<div class="logo-club">CLUB</div>
+<div class="logo-sub">ALL IN ONE PLACE</div>
+</div>
+</div>
+
+<div class="admin-bar" id="adminBar">
+<button onclick="openLogin()">🔐 دخول الأدمن</button>
+<button class="ghost" onclick="copyLink()">🔗 كوبي لينك</button>
+</div>
+
+<nav class="categories" id="categories"></nav>
+</header>
+
+<main>
+<div class="hero">
+<h1>Kings Menu</h1>
+<p>ALL IN ONE PLACE</p>
+</div>
+<div id="menu"></div>
+</main>
+
+<footer><b>KINGS CLUB</b> — Cafe & Restaurant</footer>
+
+<div class="modal" id="loginModal">
+<div class="modal-box">
+<h3>🔐 دخول الأدمن</h3>
+<input type="password" id="pwd" placeholder="كلمة السر">
+<button onclick="doLogin()">دخول</button>
+</div>
+</div>
+
+<div class="modal" id="editModal">
+<div class="modal-box">
+<h3>✏️ تعديل</h3>
+<input type="text" id="editName" placeholder="الاسم">
+<input type="number" id="editPrice" placeholder="السعر">
+<button onclick="saveEdit()">حفظ</button>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const defaultData = [
+{name:"المقبلات",items:[["بطاطس",65],["بطاطس جبنة",80],["بطاطس بولينيز",150],["اسبرنج رول خضار",110],["اسبرنج رول فراخ",175],["سمبوسك جبنة",130],["سمبوسك لحمة",150],["صوابع موتزريلا",99]]},
+{name:"السلطات",items:[["سيزر سالاد",205],["استرتشا سالاد",235],["جريك سالاد",120],["سلطة فتوش",160],["سلطة بلدي",55],["بابا غنوج",65],["حمص",75],["طحينة",55]]},
+{name:"المشروبات الساخنة",items:[["شاي",40],["شاي أخضر",50],["نعناع سخن",40],["ينسون",40],["شاي كرك",100],["شيكولاته ساخنه بحليب",100],["شيكولاته ساخنه بالمارشميلو",110],["سحلب",75],["سحلب لوتس",80],["هوت سيدر",85],["قرفة بحليب",85],["جنزبيل برتقال",100],["شاي نكهات",50],["سحلب نوتيلا",80],["نسكافيه حليب",95],["اسبريسو",70],["اسبريسو دابل شوت",90],["ميكاتو",70],["ميكاتو دابل",90],["لاتيه",95],["كابتشينو",100],["فلات وايت",115],["كورتادو",110],["لاتيه لوتس",120],["سبانيش لاتيه",120],["موكا",110],["موكا وايت",110],["قهوة نوتيلا",120],["أمريكانو",95],["قهوة تركي",50],["قهوة بندق",80],["قهوة تركي دوبل",60],["قهوة فرنساوي",70],["V 60",120],["قهوة فسدق",100]]},
+{name:"العصائر الفريش",items:[["مانجا فريش",90],["فراولة فريش",80],["برتقال فريش",80],["جوافة فريش",80],["اناناس فريش",80],["ليمون نعناع فريش",65],["أفوكادو",150],["كينجز كلوب فريش",115],["كيوى",115],["بطيخ",110],["موز باللبن",80],["كنتالوب",80],["بلح",80]]},
+{name:"كوكئيلات",items:[["كوكتيل بلو بانانا",110],["كوكتيل زبادي ميكس بيري",110],["كوكتيل فواكه",110],["ايس كريم 1 بولة",25],["سلطة فواكه",110]]},
+{name:"زبادي",items:[["زبادي فراولة",100],["زبادي مانجو",100],["زبادي موز",100],["زبادي بلوبيري",100],["زبادي كيوى",100],["زبادي عسل",90],["زبادي كوكتيل",110]]},
+{name:"الفطار الفلاحي",items:[["فطيرة كاملة مع عسل أسود + جبنة قديمة",350],["نص فطيرة مع عسل أسود + جبنة قديمة",250],["إضافات: جبنة قديمة",50],["إضافات: جبنة بيضاء",50],["إضافات: عسل أبيض",60],["إضافات: عسل أسود",55],["إضافات: طحينة خام",55],["إضافات: قشطة بلدي",75]]},
+{name:"الفطار الشرقي",items:[["صينية فطار شرقي",200],["فول بالزيت",45],["فول بالزيت الحار",55],["فول بزيت الزيتون",60],["فول بالزبداية",60],["فول اسكندراني",55],["فول بالسجق",95],["فول بالطماطم",55],["طعمية سادة",45],["طعمية محشية",57],["طعمية كيري",67],["أومليت سادة",50],["اومليت بسطرمة",90],["أومليت ميكس بيف",90],["أومليت خضار",55]]},
+{name:"الفطار الغربي",items:[["كرواسون سادة",95],["كرواسون ميكس جبن",160],["كرواسون مربي كيري",145],["كرواسون تركي شيدر",160],["كرواسون بسطرمة كيري",170]]},
+{name:"المشروبات المثلجة",items:[["ايس لاتيه",95],["ايس امريكانو",80],["ايس موكا",110],["ايس وايت موكا",110],["ايس كراميل ميكاتو",120],["ايس سبانيش لاتيه",120],["ايس بيستاشيو",120],["ايس ماتشا",110],["ايس كراميل لاتيه مملح",110],["ايس ماتشا لاتيه",120],["ايس ماتشا بلوبيري",120],["ايس ماتشا فراولة",120],["ايس تي بلو بيري",95],["ايس تي باشون",95],["ايس اورانج امريكانو",110]]},
+{name:"فرابيه",items:[["فرابيه ماتشا",125],["فرابيه فانيلا",100],["فرابيه بندق",100],["فرابيه كراميل",100],["فرابيه شوكليت",100],["فرابيه لوتس",100],["فرابيه بيستاشيو",125]]},
+{name:"ميلك شيك",items:[["ميلك شيك فانيلا",120],["ميلك شيك شوكليت",130],["ميلك شيك مانجو",130],["ميلك شيك فراولة",130],["ميلك شيك بلو بيري",130],["ميلك شيك تشيز كيك",150],["ميلك شيك اوريو",135],["ميلك شيك سنيكرز",160],["كوكيز ميلك شيك",130],["ميلك شيك كيت كات",130],["ميلك تشيك لوتس",130]]},
+{name:"سموزي",items:[["بيناكولادا سموزي",120],["سموزي ميكس بيري",95],["سموزي مانجا كيوي",120],["سموزي مانجا باشون",120],["سموزي بطيخ",95],["سموزي بلو بيري",95]]},
+{name:"موهيتو",items:[["موخيتو كلاسيك",95],["موخيتو باشون فروت",110],["موخيتو ميكس بيري ريدبول",160],["موخيتو بلو",120],["موخيتو ريد بول",150],["موخيتو ريدبول فراولة",160],["موخيتو ريدبول ريد بلو",160],["موخيتو كيوي",130],["موخيتو باشون فروت ريد بول",160]]},
+{name:"بوبا",items:[["بوبا باشون فروت",120],["بوبا بلو بيري",120],["بوبا فراولة",120],["بوبا كراميل",130]]},
+{name:"الحلويات",items:[["تشيز كيك",105],["مولتن كيك",110],["شوكليت فادج",110],["تراميسو كيك",110],["براونيز",105],["ريد فيلفت",110]]},
+{name:"وافل",items:[["وافل كينجز كلوب",150],["وافل كراميل",100],["وافل لوتس",100],["وافل بيستاشيو",120],["وافل شوكليت",100],["وافل فريرو روشيه",140],["وافل كيندر",140],["وافل نوتيلا",100],["ميني بان كيك",100],["اندومي",30],["فشار",20]]},
+{name:"Shisha",items:[["Kings Club Vip",250],["Lai Kings Club",25],["Shisha Kings Club",175],["شيشه معسل",45]]}
+];
+
+let data = JSON.parse(JSON.stringify(defaultData));
+let isAdmin = false;
+let editingIndex = null;
+
+const API_URL = window.location.origin;
+
+async function loadMenu(){
+  try{
+    const res = await fetch(API_URL + '/api/menu');
+    if(res.ok){
+      const remote = await res.json();
+      if(remote && remote.length){ data = remote; }
+    }
+  }catch(e){ console.log('Using default data'); }
+  renderMenu();
+}
+
+function renderMenu(){
+  const categories = document.getElementById("categories");
+  const menu = document.getElementById("menu");
+  categories.innerHTML = "";
+  menu.innerHTML = "";
+
+  data.forEach((category,index)=>{
+    const button = document.createElement("button");
+    button.className = "cat";
+    if(index===0) button.classList.add("active");
+    button.textContent = category.name;
+    button.onclick = ()=>showCategory(index);
+    categories.appendChild(button);
+
+    const section = document.createElement("section");
+    section.className = "section";
+    if(index===0) section.classList.add("active");
+
+    section.innerHTML = `
+      <div class="section-title">
+        <h2>${category.name}</h2>
+        <div class="line"></div>
+      </div>
+      <div class="grid">
+        ${category.items.map((item,i)=>`
+          <div class="item">
+            <div class="name">${item[0]}</div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <div class="price">${item[1]}</div>
+              ${isAdmin ? `<button class="edit-btn" onclick="openEdit(${index},${i})">✏️</button>` : ''}
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+    menu.appendChild(section);
+  });
+}
+
+function showCategory(index){
+  document.querySelectorAll(".cat").forEach((b,i)=>b.classList.toggle("active",i===index));
+  document.querySelectorAll(".section").forEach((s,i)=>s.classList.toggle("active",i===index));
+  document.querySelectorAll(".cat")[index].scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function openLogin(){ document.getElementById("loginModal").classList.add("show"); }
+function closeLogin(){ document.getElementById("loginModal").classList.remove("show"); }
+
+async function doLogin(){
+  const pwd = document.getElementById("pwd").value;
+  try{
+    const res = await fetch(API_URL + '/api/login',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({password:pwd})
+    });
+    const json = await res.json();
+    if(json.success){
+      isAdmin = true;
+      closeLogin();
+      document.getElementById("pwd").value = "";
+      document.getElementById("adminBar").innerHTML = `
+        <button class="ghost" onclick="logout()">🚪 خروج</button>
+        <button class="ghost" onclick="copyLink()">🔗 كوبي لينك</button>
+      `;
+      renderMenu();
+      showToast("✅ تم الدخول كأدمن");
+    }else{
+      showToast("❌ كلمة السر غلط");
+    }
+  }catch(e){
+    showToast("⚠️ فشل الاتصال");
+  }
+}
+
+function logout(){
+  isAdmin = false;
+  document.getElementById("adminBar").innerHTML = `
+    <button onclick="openLogin()">🔐 دخول الأدمن</button>
+    <button class="ghost" onclick="copyLink()">🔗 كوبي لينك</button>
+  `;
+  renderMenu();
+  showToast("👋 تم الخروج");
+}
+
+function openEdit(catIndex,itemIndex){
+  editingIndex = {cat:catIndex,item:itemIndex};
+  document.getElementById("editName").value = data[catIndex].items[itemIndex][0];
+  document.getElementById("editPrice").value = data[catIndex].items[itemIndex][1];
+  document.getElementById("editModal").classList.add("show");
+}
+
+async function saveEdit(){
+  const newName = document.getElementById("editName").value;
+  const newPrice = Number(document.getElementById("editPrice").value);
+  if(!newName || !newPrice){ showToast("⚠️ املأ البيانات"); return; }
+  data[editingIndex.cat].items[editingIndex.item][0] = newName;
+  data[editingIndex.cat].items[editingIndex.item][1] = newPrice;
+  document.getElementById("editModal").classList.remove("show");
+  renderMenu();
+  try{
+    await fetch(API_URL + '/api/menu',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(data)
+    });
+    showToast("✅ تم الحفظ");
+  }catch(e){
+    showToast("⚠️ حفظ محلي فقط");
+  }
+}
+
+function copyLink(){
+  const url = window.location.origin;
+  navigator.clipboard.writeText(url).then(()=>{
+    showToast("🔗 تم نسخ اللينك");
+  }).catch(()=>{
+    showToast("اللينك: " + url);
+  });
+}
+
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2500);
+}
+
+loadMenu();
+</script>
+</body>
+</html>
