@@ -10,9 +10,9 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-// 👇 حط هنا بيانات Pantry بتاعتك بعد ما تعمل الحساب
-const PANTRY_BASKET_ID = 'ضع-الباسكيت-اي-دي-هنا';
-const PANTRY_URL = `https://getpantry.cloud/apiv1/pantry/${PANTRY_BASKET_ID}/basket/menu-data`;
+// 👇 بيانات Pantry بتاعتك (الباسكيت ID)
+const PANTRY_BASKET_ID = 'f1d4f1b6-f0be-49ca-b709-eb190b0521e7';
+const PANTRY_URL = `https://getpantry.cloud/apiv1/pantry/${PANTRY_BASKET_ID}/basket/Menu-data`;
 
 // جلب المنيو
 app.get('/api/menu', async (req, res) => {
